@@ -17,7 +17,7 @@
                 <div class="card-body">
                     {{ article.summary }}...<a href="{{ article.get_absolute_url }}">More</a>
                 </div>
-                <h4>Views: {{ views }}</h4>
+                <h4 class="m-2">Views: {{ views }}</h4>
                 <div class="card-footer text-left text-muted">
                     <span class="text-muted">Author {{ article.author | title }} &middot; {{ article.date }}</span>
                 </div>

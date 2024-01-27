@@ -1,8 +1,24 @@
 {% extends 'base.html' %}
+{% load hitcount_tags %}
 {% block title %} {% endblock %}
 {% block content %}
-    {{ user.username }}
-    <a href="{% url 'login' %}">Login</a>
-    <a href="{% url 'logout' %}">Logout</a>
-    <a href="{% url 'signup' %}">SignUp</a>
+    <h1>Latest posts</h1>
+    {% for post in posts %}
+        {% get_hit_count for post as views %}
+       <div class="card m-5" style="width: 50rem;">
+            <div class="card-header">
+                <span class="font-weight-bold"><a href="{{ post.get_absolute_url }}"><h2>{{ post.title }}</h2></a></span>
+            </div>
+            {% if post.photo %}
+                <img class="card-img-top" src="{{ post.photo.url }}" alt="{{ post.title }}" style="width: 400px">
+            {%  endif %}
+            <div class="card-body">
+                {{ post.summary }}...<a href="{{ post.get_absolute_url }}">More</a>
+            </div>
+            <h4 class="m-2">Views: {{ views }}</h4>
+            <div class="card-footer text-left text-muted">
+                <span class="text-muted">Author {{ post.author | title }} &middot; {{ post.date }}</span>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock %}
