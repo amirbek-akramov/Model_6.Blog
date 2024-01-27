@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load hitcount_tags %}
+{% block title %} {{ post.summary }} {% endblock %}
+{% block content %}
+    {% if post.admin_allowed == "allowed" %}
+        <div class="container-fluid">
+        <div class="card" >
+          <div class="card-body">
+              {%  if object.photo %}
+                <img class="card-img-top" src="{{ object.photo.url }}" alt="{{ object.title }}" style="width: 200px">
+              {% endif %}
+              <h1 class="card-title">{{ object.title }}</h1>
+              <h6 class="card-subtitle mb-2 text-muted">Author: {{ object.author }} | {{ object.date }}</h6>
+              <p class="card-text">{{ object.content | safe }}</p>
+              <a class="btn btn-outline-info" href="{% url 'post_update' post.pk %}">Update</a> |
+              <a class="btn btn-danger" href="{% url 'post_delete' post.pk %}">Delete</a> |
+              <a class="btn btn-outline-primary" href="{% url 'posts_list' %}">Back to all Posts</a>
+          </div>
+        </div>
+        <p></p>
+{#        <div class="card">#}
+{#            <div class="card-header">Comments</div>#}
+{#            {%  for comment in post.comments.all %}#}
+{#                <div class="card-body">#}
+{#                    <blockquote class="blockquote mb-0">#}
+{#                        <p>{{ comment }}</p>#}
+{#                        <footer class="blockquote-footer">{{  comment.author }}</footer>#}
+{#                    </blockquote>#}
+{#                </div>#}
+{#            {% endfor %}#}
+{#        </div>#}
+    </div>
+    {% else %}
+        <h1>You have no access to this page!</h1>
+        <h2>First, admin allows this post, then you can see it!</h2>
+    {% endif %}
+{% endblock %}
