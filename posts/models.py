@@ -18,7 +18,7 @@ class Post(models.Model):
     photo = models.ImageField(default='default_post_pic.jpg', upload_to='images/', blank=True)
     date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    hit_count_generic = GenericRelation(HitCount, object_id_field='object_p',
+    hit_count_generic = GenericRelation(HitCount, object_id_field="object_pk",
                                         related_query_name='hit_count_generic_relation')
 
     admin_allowed = models.CharField(choices=ADMIN_ALLOWING_CHOICES, max_length=11, default="not_allowed")

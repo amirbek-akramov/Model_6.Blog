@@ -254,6 +254,11 @@ class CustomUser(AbstractUser):
         ('ZM', 'Zambia'),
         ('ZW', 'Zimbabwe'),
     ]
+    USER_BLOCK = [
+        ('blocked', "BLOCKED"),
+        ('unblocked', "UNBLOCKED")
+    ]
 
     birth_date = models.DateField(null=True, blank=True)
     country = models.CharField(max_length=2, null=True, blank=True, choices=COUNTRY_CHOICES)
+    block = models.CharField(max_length=9, null=False, blank=False, default='unblocked', choices=USER_BLOCK)
