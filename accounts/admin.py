@@ -13,10 +13,10 @@ class CustomUserAdmin(UserAdmin):
 
     list_display = ('email', 'username', 'first_name', 'last_name', 'birth_date', 'is_active', 'is_staff')
     fieldsets = UserAdmin.fieldsets + (
-        (None, {'fields': ('birth_date', 'country')}),
+        (None, {'fields': ('birth_date', 'country', 'block')}),
     )
 
     add_fieldsets = UserAdmin.add_fieldsets + (
-        (None, {'fields': ('birth_date', 'country')}),
+        (None, {'fields': ('birth_date', 'country', 'block')}),
     )
 

@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from hitcount.views import HitCountDetailView
 
-from posts.models import Post
+from posts.models import Post, Comments
 
 
 # Create your views here.
@@ -49,3 +49,37 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         obj = self.get_object()
         return obj.author == self.request.user
+
+
+class CommentCreateView(CreateView):
+    model = Comments
+    template_name = 'posts/create_comment.html'
+    fields = ('content',)
+    success_url = reverse_lazy('posts_list')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        form.instance.post_id = self.kwargs['pk']
+        return super().form_valid(form)
+
+
+class CommentUpdateView(UserPassesTestMixin, UpdateView):
+    model = Comments
+    template_name = 'posts/update_comment.html'
+    fields = ('content',)
+    success_url = reverse_lazy('posts_list')
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
+
+
+class CommentDeleteView(UserPassesTestMixin, DeleteView):
+    model = Comments
+    template_name = 'posts/delete_comment.html'
+    success_url = reverse_lazy('posts_list')
+
+    def test_func(self):
+        obj = self.get_object()
+        return obj.author == self.request.user
+

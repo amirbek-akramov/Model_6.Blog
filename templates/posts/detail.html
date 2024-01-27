@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+
+{% block extrahead %}
+    <script>window.CKEDITOR_BASEPATH = '/static/ckeditor/ckeditor/'</script>
+    {{ block.super }}
+{% endblock %}
 {% load hitcount_tags %}
 {% block title %} {{ post.summary }} {% endblock %}
 {% block content %}
@@ -12,23 +17,30 @@
               <h1 class="card-title">{{ object.title }}</h1>
               <h6 class="card-subtitle mb-2 text-muted">Author: {{ object.author }} | {{ object.date }}</h6>
               <p class="card-text">{{ object.content | safe }}</p>
-              <a class="btn btn-outline-info" href="{% url 'post_update' post.pk %}">Update</a> |
-              <a class="btn btn-danger" href="{% url 'post_delete' post.pk %}">Delete</a> |
+              {% if request.user == post.author %}
+                <a class="btn btn-outline-info" href="{% url 'post_update' post.pk %}">Update</a> |
+                <a class="btn btn-danger" href="{% url 'post_delete' post.pk %}">Delete</a> |
+              {% endif %}
               <a class="btn btn-outline-primary" href="{% url 'posts_list' %}">Back to all Posts</a>
           </div>
         </div>
         <p></p>
-{#        <div class="card">#}
-{#            <div class="card-header">Comments</div>#}
-{#            {%  for comment in post.comments.all %}#}
-{#                <div class="card-body">#}
-{#                    <blockquote class="blockquote mb-0">#}
-{#                        <p>{{ comment }}</p>#}
-{#                        <footer class="blockquote-footer">{{  comment.author }}</footer>#}
-{#                    </blockquote>#}
-{#                </div>#}
-{#            {% endfor %}#}
-{#        </div>#}
+        <div class="card">
+            <div class="card-header">Comments</div>
+            <a href="{% url 'comment_add' post.id %}" class="btn btn-outline-warning m-1 w-25">Add comment +</a>
+            {%  for comment in post.comments.all %}
+                <div class="card-body">
+                    <blockquote class="blockquote mb-0">
+                        <p>{{ comment.content | safe }}</p>
+                        <footer class="blockquote-footer">{{ comment.author }}</footer>
+                    </blockquote>
+                </div>
+                {% if comment.author == request.user %}
+                    <a href="{% url 'comment_update' comment.id %}" class="btn btn-primary w-25 m-1">Update</a>
+                    <a href="{% url 'comment_delete' comment.id %}" class="btn btn-warning w-25 m-1">Delete</a>
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
     {% else %}
         <h1>You have no access to this page!</h1>

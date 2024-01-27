@@ -4,11 +4,16 @@
 {% block title %} Post \ Update {% endblock %}
 
 {% block content %}
+    {% if user.block != 'blocked' %}
     <h1>Edit your post</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
+        {{ form.media }}
         {{ form | crispy }}
         <button class="btn btn-outline-success">Update</button>
         <a href="{{ post.get_absolute_url }}" class="btn btn-danger">Back</a>
     </form>
+    {% else %}
+        <h1 style="color: darkred">You are blocked by Admin</h1>
+    {% endif %}
 {% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %} Comment \ Update {% endblock %}
+
+{% block content %}
+    {% if user.block != 'blocked' %}
+    <h1>Edit your post</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form | crispy }}
+        <button class="btn btn-outline-success">Update</button>
+        <a href="{{ comments.post.get_absolute_url }}" class="btn btn-danger">Back</a>
+    </form>
+    {% else %}
+        <h1 style="color: darkred">You are blocked by Admin</h1>
+    {% endif %}
+{% endblock %}
