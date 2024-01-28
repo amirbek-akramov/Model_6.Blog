@@ -2,7 +2,7 @@
 {% load hitcount_tags %}
 {% block title %} {% endblock %}
 {% block content %}
-    <h1>Latest posts</h1>
+    <h1>9 Latest posts</h1>
     {% for post in posts %}
         {% get_hit_count for post as views %}
        <div class="card m-5" style="width: 50rem;">
