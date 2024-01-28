@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %} Profile \ Update {% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+    {% if request.user.username == 'admin' or request.user == object %}
+        {% if object.block != True %}
+        <h1>Edit your profile</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <button class="btn btn-outline-success">Update</button>
+            <a href="{% url 'profile' object.id %}" class="btn btn-danger">Back</a>
+        </form>
+        {% else %}
+            <h1 style="color: darkred">You are blocked by Admin</h1>
+        {% endif %}
+    {% else %}
+        <h1>You cant update this user!</h1>
+    {% endif %}
+{% endblock %}

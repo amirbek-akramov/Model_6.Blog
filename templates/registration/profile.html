@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %} Profile {% endblock %}
+{% block content %}
+    <div class="card p-3">
+        {% if request.user == object or request.user.username == 'admin' %}
+            <h1><i>Username:</i>{{ object.username }}</h1>
+            <h2><i>First name:</i>
+            {% if object.first_name %}
+                {{ object.first_name }}
+            {% else %}
+                _*
+            {% endif %}
+            </h2>
+            <h2><i>Last name:</i>
+            {% if object.last_name %}
+                {{ object.last_name }}
+            {% else %}
+                _*
+            {% endif %}
+            </h2>
+            <h3>{{ object.email }}</h3>
+    
+            <a href="{% url 'profile-update' object.id %}" class="btn btn-outline-success m-2 w-50">Edit</a>
+            <a href="{% url 'profile-delete' object.id %}" class="btn btn-danger m-2 w-50">Delete</a>
+        {% else %}
+            <h1>You have not permissions to this page!</h1>
+        {% endif %}
+    </div>
+{% endblock %}

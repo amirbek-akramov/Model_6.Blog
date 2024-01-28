@@ -24,9 +24,9 @@ count_hit = True
 SECRET_KEY = 'django-insecure-nh%mrm*)k&jfqoqm3s(p+#w0sqe+)pw&_phsm7*f_$paehmbu5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

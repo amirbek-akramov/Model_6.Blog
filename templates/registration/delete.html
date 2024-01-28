@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} Profile \ Delete {% endblock %}
+
+{% block content %}
+    {% if request.user.username == 'admin' or request.user == object %}
+        <h1>Delete post</h1>
+        <form action="" method="post">{% csrf_token %}
+            <p>{{ object.username }}</p>
+            <h2>Do you want to delete this user?</h2>
+            <button class="btn btn-danger ml-2" type="submit">Yes!</button>
+            <a href="{% url 'profile' object.id %}" class="btn btn-outline-success">No</a>
+        </form>
+    {% else %}
+        <h1>You cant delete this user!</h1>
+    {% endif %}
+{% endblock %}
