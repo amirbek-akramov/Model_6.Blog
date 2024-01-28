@@ -4,9 +4,9 @@
 {% block title %}Posts{% endblock title %}
 
 {% block content %}
-    {% for article in object_list %}
+    {% for article in posts %}
         {% get_hit_count for article as views %}
-        {% if article.admin_allowed == 'allowed' %}
+        {% if article.admin_allowed == True %}
             <div class="card m-5" style="width: 50rem;">
                 <div class="card-header">
                     <span class="font-weight-bold"><a href="{{ article.get_absolute_url }}"><h2>{{ article.title }}</h2></a></span>

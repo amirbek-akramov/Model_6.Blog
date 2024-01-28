@@ -7,7 +7,7 @@
 {% load hitcount_tags %}
 {% block title %} {{ post.summary }} {% endblock %}
 {% block content %}
-    {% if post.admin_allowed == "allowed" %}
+    {% if post.admin_allowed == True %}
         <div class="container-fluid">
         <div class="card" >
           <div class="card-body">
@@ -17,7 +17,7 @@
               <h1 class="card-title">{{ object.title }}</h1>
               <h6 class="card-subtitle mb-2 text-muted">Author: {{ object.author }} | {{ object.date }}</h6>
               <p class="card-text">{{ object.content | safe }}</p>
-              {% if request.user == post.author %}
+              {% if request.user == post.author or request.user.username == 'admin' %}
                 <a class="btn btn-outline-info" href="{% url 'post_update' post.pk %}">Update</a> |
                 <a class="btn btn-danger" href="{% url 'post_delete' post.pk %}">Delete</a> |
               {% endif %}
@@ -35,7 +35,7 @@
                         <footer class="blockquote-footer">{{ comment.author }}</footer>
                     </blockquote>
                 </div>
-                {% if comment.author == request.user %}
+                {% if comment.author == request.user or request.user.username == 'admin' %}
                     <a href="{% url 'comment_update' comment.id %}" class="btn btn-primary w-25 m-1">Update</a>
                     <a href="{% url 'comment_delete' comment.id %}" class="btn btn-warning w-25 m-1">Delete</a>
                 {% endif %}

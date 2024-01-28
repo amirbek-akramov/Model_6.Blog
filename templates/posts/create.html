@@ -4,7 +4,7 @@
 {% block title %} Post \ Create {% endblock %}
 
 {% block content %}
-    {% if user.block != 'blocked' %}
+    {% if user.block != True %}
         <h1>Create your post</h1>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}

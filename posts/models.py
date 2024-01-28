@@ -8,10 +8,6 @@ from ckeditor.fields import RichTextField
 
 
 class Post(models.Model):
-    ADMIN_ALLOWING_CHOICES = [
-        ("allowed", "ALLOWED"),
-        ("not_allowed", "NOT_ALLOWED")
-    ]
 
     title = models.CharField(max_length=255)
     summary = models.CharField(max_length=200, blank=True)
@@ -22,7 +18,7 @@ class Post(models.Model):
     hit_count_generic = GenericRelation(HitCount, object_id_field="object_pk",
                                         related_query_name='hit_count_generic_relation')
 
-    admin_allowed = models.CharField(choices=ADMIN_ALLOWING_CHOICES, max_length=11, default="not_allowed")
+    admin_allowed = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

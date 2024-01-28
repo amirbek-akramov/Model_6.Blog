@@ -1,19 +1,24 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
-{% block title %} Comment \ Update {% endblock %}
+{% block title %} Post \ Comment \ Update {% endblock %}
 
 {% block content %}
-    {% if user.block != 'blocked' %}
-    <h1>Edit your post</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.media }}
-        {{ form | crispy }}
-        <button class="btn btn-outline-success">Update</button>
-        <a href="{{ comments.post.get_absolute_url }}" class="btn btn-danger">Back</a>
-    </form>
+    {% if request.user.username == 'admin' or request.user == comments.author %}
+        {% if user.block != True %}
+        <h1>Edit your comment</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form | crispy }}
+            <button class="btn btn-outline-success">Update</button>
+            <a href="{{ post.get_absolute_url }}" class="btn btn-danger">Back</a>
+        </form>
+        {% else %}
+            <h1 style="color: darkred">You are blocked by Admin</h1>
+        {% endif %}
     {% else %}
-        <h1 style="color: darkred">You are blocked by Admin</h1>
+        <h1>You cant update this comment!</h1>
     {% endif %}
+    
 {% endblock %}

@@ -12,12 +12,12 @@ from posts.models import Post, Comments
 class PostsListView(ListView):
     model = Post
     template_name = 'posts/posts_list.html'
+    context_object_name = 'posts'
 
 
 class PostDetailView(LoginRequiredMixin, HitCountDetailView):
     model = Post
     template_name = 'posts/detail.html'
-    # context_object_name = 'post'
     count_hit = True
 
 
@@ -31,31 +31,22 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
     model = Post
     template_name = 'posts/update.html'
     fields = ('title', 'summary', 'content', 'photo')
 
-    def test_func(self):
-        obj = self.get_object()
-        return obj.author == self.request.user
 
-
-class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = 'posts/delete.html'
     success_url = reverse_lazy('posts_list')
-
-    def test_func(self):
-        obj = self.get_object()
-        return obj.author == self.request.user
 
 
 class CommentCreateView(CreateView):
     model = Comments
     template_name = 'posts/create_comment.html'
     fields = ('content',)
-    success_url = reverse_lazy('posts_list')
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -63,23 +54,12 @@ class CommentCreateView(CreateView):
         return super().form_valid(form)
 
 
-class CommentUpdateView(UserPassesTestMixin, UpdateView):
+class CommentUpdateView(UpdateView):
     model = Comments
     template_name = 'posts/update_comment.html'
     fields = ('content',)
-    success_url = reverse_lazy('posts_list')
 
-    def test_func(self):
-        obj = self.get_object()
-        return obj.author == self.request.user
-
-
-class CommentDeleteView(UserPassesTestMixin, DeleteView):
+class CommentDeleteView(DeleteView):
     model = Comments
     template_name = 'posts/delete_comment.html'
     success_url = reverse_lazy('posts_list')
-
-    def test_func(self):
-        obj = self.get_object()
-        return obj.author == self.request.user
-
